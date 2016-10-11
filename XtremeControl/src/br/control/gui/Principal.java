@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.control.Telas;
+package br.control.gui;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -31,13 +31,15 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItemCadAtiv = new javax.swing.JMenuItem();
+        jMenuItemCadDesc = new javax.swing.JMenuItem();
+        jMenuItemCadAluno = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -67,19 +69,19 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastros");
 
-        jMenuItem1.setText("Atividades");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemCadAtiv.setText("Atividades");
+        jMenuItemCadAtiv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemCadAtivActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItemCadAtiv);
 
-        jMenuItem2.setText("Descontos");
-        jMenu1.add(jMenuItem2);
+        jMenuItemCadDesc.setText("Descontos");
+        jMenu1.add(jMenuItemCadDesc);
 
-        jMenuItem3.setText("Alunos");
-        jMenu1.add(jMenuItem3);
+        jMenuItemCadAluno.setText("Alunos");
+        jMenu1.add(jMenuItemCadAluno);
 
         jMenuBar1.add(jMenu1);
 
@@ -93,6 +95,13 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Sair");
+
+        jMenuItem1.setText("Logoff");
+        jMenu5.add(jMenuItem1);
+
+        jMenuItem2.setText("Trocar de usuário");
+        jMenu5.add(jMenuItem2);
+
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -112,11 +121,13 @@ public class Principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItemCadAtivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadAtivActionPerformed
 
-       
+       CadAtividades ativ = new CadAtividades();
+       panelPrincipal.add(ativ);
+       ativ.setVisible(true);
         
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItemCadAtivActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,7 +174,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItemCadAluno;
+    private javax.swing.JMenuItem jMenuItemCadAtiv;
+    private javax.swing.JMenuItem jMenuItemCadDesc;
     private javax.swing.JDesktopPane panelPrincipal;
     // End of variables declaration//GEN-END:variables
 }
