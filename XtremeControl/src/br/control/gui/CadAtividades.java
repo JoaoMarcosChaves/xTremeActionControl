@@ -358,6 +358,11 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText()));    
             }
             bean.setAtivDescr(txtDescAtivCons.getText());
+            if(checkFiltroDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
 
             lista = controller.ConsultaAtivs(bean);
             
@@ -484,11 +489,14 @@ Ativ_bean bean = new Ativ_bean();
     }
     
     private void LinhaSelecionada(JTable tabela){
+
+        if (tbConsAtiv.getSelectedRow() != -1) {
         txtCodAtiv.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivCod()));
         txtNomeAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivNome()));
         txtValorAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivValor()));
         txtDescAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivDescr()));
         txtCodAtiv.setEnabled(false);
+        }
     }
     
     

@@ -16,6 +16,15 @@ public class Ativ_bean {
     private String ativDescr;
     private float ativValor;
     private String ativStatus ;
+    public int desativ;
+
+    public int getDesativ() {
+        return desativ;
+    }
+
+    public void setDesativ(int desativ) {
+        this.desativ = desativ;
+    }
 
     public int getAtivCod() {
         return ativCod;

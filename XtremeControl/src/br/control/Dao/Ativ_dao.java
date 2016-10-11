@@ -132,6 +132,12 @@ public class Ativ_dao {
             sql = "select * from t_ativ where ativNome like '"+ bean.getAtivNome()+"%'";
         }
         
+        if(bean.getDesativ() == 0 && bean.getAtivCod() == 0 && bean.getAtivNome().equals("") && bean.getAtivValor() == 0){
+            sql += "\nwhere ativStatus = 'Ativo'";
+        }else if(bean.getDesativ() == 0) {
+            sql += "\nand ativStatus = 'Ativo'";
+        }
+        
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
