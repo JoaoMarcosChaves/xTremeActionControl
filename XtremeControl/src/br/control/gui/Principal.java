@@ -5,10 +5,9 @@
  */
 package br.control.gui;
 
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
 
 
 /**
@@ -54,7 +53,7 @@ public class Principal extends javax.swing.JFrame {
         panelPrincipalLayout.setHorizontalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                .addContainerGap(292, Short.MAX_VALUE)
+                .addContainerGap(272, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(288, 288, 288))
         );
@@ -63,7 +62,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         panelPrincipal.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -86,6 +85,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(jMenuItemCadDesc);
 
         jMenuItemCadAluno.setText("Alunos");
+        jMenuItemCadAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadAlunoActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemCadAluno);
 
         jMenuBar1.add(jMenu1);
@@ -101,7 +105,12 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu5.setText("Sair");
 
-        jMenuItem1.setText("Logoff");
+        jMenuItem1.setText("Sair do sistema");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem1);
 
         jMenuItem2.setText("Trocar de usuário");
@@ -115,30 +124,49 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelPrincipal)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelPrincipal)
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1296, 585));
+        setSize(new java.awt.Dimension(1296, 646));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemCadAtivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadAtivActionPerformed
 
        CadAtividades ativ = new CadAtividades();
+        centralizaForm(ativ);
        panelPrincipal.add(ativ);
        ativ.setVisible(true);
         
     }//GEN-LAST:event_jMenuItemCadAtivActionPerformed
 
     private void jMenuItemCadDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadDescActionPerformed
+        
        CadDesc desc = new CadDesc();
+       centralizaForm(desc);
        panelPrincipal.add(desc);
        desc.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadDescActionPerformed
+
+    private void jMenuItemCadAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadAlunoActionPerformed
+     CadAlunos alu = new CadAlunos();
+        centralizaForm(alu);
+        panelPrincipal.add(alu);
+        alu.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadAlunoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,4 +218,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCadDesc;
     private javax.swing.JDesktopPane panelPrincipal;
     // End of variables declaration//GEN-END:variables
+
+ private void centralizaForm(JInternalFrame frame) {
+        Dimension desktopSize = panelPrincipal.getSize();
+        Dimension jInternalFrameSize = frame.getSize();
+        frame.setLocation((desktopSize.width - jInternalFrameSize.width) / 2,
+                (desktopSize.height - jInternalFrameSize.height) / 2);
+    }
+
 }
