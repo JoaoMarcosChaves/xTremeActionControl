@@ -2,7 +2,7 @@
 package br.control.gui;
 
 import br.control.Beans.Ativ_bean;
-import br.control.Controller.AtivController;
+import br.control.Controller.Ativ_controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -311,9 +311,12 @@ public class CadAtividades extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         Ativ_bean bean = new Ativ_bean();
-        AtivController controller = new AtivController();
+        Ativ_controller controller = new Ativ_controller();
         List<Ativ_bean> lista = new ArrayList<>();
         
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a inserção dessa atividade?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
         try{
             if(verificaCamposCad()){
                 
@@ -337,12 +340,12 @@ public class CadAtividades extends javax.swing.JInternalFrame {
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
         }
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         Ativ_bean bean = new Ativ_bean();
-        AtivController controller = new AtivController();
-        txtCodAtiv.setEnabled(true);
+        Ativ_controller controller = new Ativ_controller();
         
         try{
           
@@ -393,13 +396,16 @@ public class CadAtividades extends javax.swing.JInternalFrame {
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
        Ativ_bean bean = new Ativ_bean();
-       AtivController controller = new AtivController();
+       Ativ_controller controller = new Ativ_controller();
        
        bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));
        bean.setAtivNome(txtNomeAtivCons.getText());
        bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText()));
        bean.setAtivDescr(txtDescAtivCons.getText());
        
+       int resp = JOptionPane.showConfirmDialog(this,"Confirma a alteração dessa atividade?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
        try{
        controller.AlteraAtiv(bean);    
        JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso");
@@ -407,7 +413,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
        }
-       
+        }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -420,10 +426,12 @@ public class CadAtividades extends javax.swing.JInternalFrame {
 
     private void btnDesativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesativarActionPerformed
         Ativ_bean bean = new Ativ_bean();
-       AtivController controller = new AtivController();
+       Ativ_controller controller = new Ativ_controller();
        
        bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));
-       
+       int resp = JOptionPane.showConfirmDialog(this,"Confirma a desativação dessa atividade?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
        try{
        controller.DesativaAtiv(bean);
        JOptionPane.showMessageDialog(this, "Atividade desativada com sucesso");
@@ -431,14 +439,17 @@ public class CadAtividades extends javax.swing.JInternalFrame {
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
        }
+        }
     }//GEN-LAST:event_btnDesativarActionPerformed
 
     private void btnReativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReativarActionPerformed
 Ativ_bean bean = new Ativ_bean();
-       AtivController controller = new AtivController();
+       Ativ_controller controller = new Ativ_controller();
        
        bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));
-       
+       int resp = JOptionPane.showConfirmDialog(this,"Confirma a reativação dessa atividade?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
        try{
        controller.AtivaAtiv(bean);
        JOptionPane.showMessageDialog(this, "Atividade reativada com sucesso");
@@ -446,6 +457,7 @@ Ativ_bean bean = new Ativ_bean();
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
        }
+        }
     }//GEN-LAST:event_btnReativarActionPerformed
 
 
@@ -495,7 +507,7 @@ Ativ_bean bean = new Ativ_bean();
         txtNomeAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivNome()));
         txtValorAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivValor()));
         txtDescAtivCons.setText(String.valueOf(lista.get(tabela.getSelectedRow()).getAtivDescr()));
-        txtCodAtiv.setEnabled(false);
+        
         }
     }
     

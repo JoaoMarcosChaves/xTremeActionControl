@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author joãomarcos
  */
-public class AtivController {
+public class Ativ_controller {
 
    
    public void cadAtiv(Ativ_bean bean)throws SQLException{

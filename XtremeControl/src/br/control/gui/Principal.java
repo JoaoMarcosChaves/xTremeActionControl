@@ -78,6 +78,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(jMenuItemCadAtiv);
 
         jMenuItemCadDesc.setText("Descontos");
+        jMenuItemCadDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadDescActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemCadDesc);
 
         jMenuItemCadAluno.setText("Alunos");
@@ -128,6 +133,12 @@ public class Principal extends javax.swing.JFrame {
        ativ.setVisible(true);
         
     }//GEN-LAST:event_jMenuItemCadAtivActionPerformed
+
+    private void jMenuItemCadDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadDescActionPerformed
+       CadDesc desc = new CadDesc();
+       panelPrincipal.add(desc);
+       desc.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadDescActionPerformed
 
     /**
      * @param args the command line arguments
