@@ -2,7 +2,7 @@
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    <Component class="javax.swing.ButtonGroup" name="grupoRadio">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -123,7 +123,7 @@
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                           <Component id="radioFem" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="txtDesc" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="txtDesc" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Component id="txtNome" linkSize="1" min="-2" pref="150" max="-2" attributes="0"/>
@@ -135,7 +135,11 @@
                                       <Group type="102" attributes="0">
                                           <Component id="txtCodAlu" min="-2" pref="90" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="btnLimpCamp" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -148,6 +152,8 @@
                           <Component id="btnTelef" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnEmail" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnEnder" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -162,14 +168,18 @@
                       <Component id="btnNovoCad" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnTelef" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEnder" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
-                  <Component id="btnAlterar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnAlterar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimpCamp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtCodAlu" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -233,10 +243,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovoCadActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnPesquisar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pesquisar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAlterar">
           <Properties>
@@ -256,6 +269,9 @@
                   <Connection code="tmAlus" type="code"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="tbAlu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);&#xd;&#xa;  lsmAlu= tbAlu.getSelectionModel();&#xd;&#xa;  lsmAlu.addListSelectionListener(new ListSelectionListener(){&#xd;&#xa;     public void valueChanged(ListSelectionEvent e){&#xd;&#xa;         if (! e.getValueIsAdjusting()){&#xd;&#xa;           LinhaSelecionada(tbAlu);&#xd;&#xa;  }&#xd;&#xa;  }&#xd;&#xa;  });"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -305,25 +321,40 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCodAlu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNome">
         </Component>
         <Component class="javax.swing.JTextField" name="txtCpf">
         </Component>
         <Component class="javax.swing.JTextField" name="txtPeso">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdade">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCep">
         </Component>
         <Component class="javax.swing.JTextField" name="txtNumRes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtDesc">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="radioMasc">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="buttonGroup1"/>
+              <ComponentRef name="grupoRadio"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Masculino"/>
           </Properties>
@@ -331,7 +362,7 @@
         <Component class="javax.swing.JRadioButton" name="radioFem">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="buttonGroup1"/>
+              <ComponentRef name="grupoRadio"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Feminino"/>
           </Properties>
@@ -350,6 +381,19 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEmailActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnEnder">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Endere&#xe7;o completo"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnLimpCamp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpar campos"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpCampActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

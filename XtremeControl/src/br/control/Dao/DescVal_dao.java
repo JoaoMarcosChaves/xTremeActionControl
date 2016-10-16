@@ -115,6 +115,8 @@ public class DescVal_dao {
             
             lista.add(c1);
         }
+        rs.close();
+        stmt.close();
         return lista;
     }
     

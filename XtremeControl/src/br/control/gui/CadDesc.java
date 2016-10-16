@@ -481,8 +481,7 @@ public class CadDesc extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
 public boolean verificaCamposCad(){
-    float valor1 ;
-    float valor2;
+    
         if(!txtPercDescCad.getText().equals("") && !txtNumMatCad.getText().equals("")){
 
             return true;

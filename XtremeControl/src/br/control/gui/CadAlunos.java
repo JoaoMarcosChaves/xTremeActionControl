@@ -5,8 +5,17 @@
  */
 package br.control.gui;
 
+import br.control.Beans.Alunos_bean;
+import br.control.Controller.Alunos_controller;
 import java.awt.Dimension;
+import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 public class CadAlunos extends javax.swing.JInternalFrame {
 
     DefaultTableModel tmAlus = new DefaultTableModel (null, new String [] {"Código aluno" ,"Nome","CPF","Idade","Sexo"});
+    List<Alunos_bean> alunos;
+    ListSelectionModel lsmAlu;
     public CadAlunos() {
         initComponents();
     }
@@ -29,10 +40,10 @@ public class CadAlunos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        grupoRadio = new javax.swing.ButtonGroup();
         panelPrincip = new javax.swing.JDesktopPane();
         btnNovoCad = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbAlu = new javax.swing.JTable();
@@ -57,6 +68,8 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         radioFem = new javax.swing.JRadioButton();
         btnTelef = new javax.swing.JButton();
         btnEmail = new javax.swing.JButton();
+        btnEnder = new javax.swing.JButton();
+        btnLimpCamp = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -75,11 +88,25 @@ public class CadAlunos extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton2.setText("Pesquisar");
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setText("Alterar");
 
         tbAlu.setModel(tmAlus);
+        tbAlu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lsmAlu= tbAlu.getSelectionModel();
+        lsmAlu.addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent e){
+                if (! e.getValueIsAdjusting()){
+                    LinhaSelecionada(tbAlu);
+                }
+            }
+        });
         jScrollPane1.setViewportView(tbAlu);
 
         jLabel1.setText("Código aluno:");
@@ -100,10 +127,20 @@ public class CadAlunos extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Sexo:");
 
-        buttonGroup1.add(radioMasc);
+        txtCodAlu.setText("0");
+
+        txtPeso.setText("0");
+
+        txtIdade.setText("0");
+
+        txtNumRes.setText("0");
+
+        txtDesc.setText("0");
+
+        grupoRadio.add(radioMasc);
         radioMasc.setText("Masculino");
 
-        buttonGroup1.add(radioFem);
+        grupoRadio.add(radioFem);
         radioFem.setText("Feminino");
 
         btnTelef.setText("Telefones");
@@ -117,6 +154,15 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         btnEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEmailActionPerformed(evt);
+            }
+        });
+
+        btnEnder.setText("Endereço completo");
+
+        btnLimpCamp.setText("Limpar campos");
+        btnLimpCamp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpCampActionPerformed(evt);
             }
         });
 
@@ -175,7 +221,10 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                                     .addGroup(panelPrincipLayout.createSequentialGroup()
                                         .addComponent(txtCodAlu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton2)))))
+                                        .addComponent(btnPesquisar))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btnLimpCamp)))))
                         .addContainerGap())
                     .addGroup(panelPrincipLayout.createSequentialGroup()
                         .addComponent(btnNovoCad)
@@ -183,6 +232,8 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                         .addComponent(btnTelef)
                         .addGap(18, 18, 18)
                         .addComponent(btnEmail)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEnder)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -195,14 +246,17 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoCad)
                     .addComponent(btnTelef)
-                    .addComponent(btnEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(btnAlterar)
+                    .addComponent(btnEmail)
+                    .addComponent(btnEnder))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAlterar)
+                    .addComponent(btnLimpCamp))
                 .addGap(18, 18, 18)
                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCodAlu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnPesquisar))
                 .addGap(18, 18, 18)
                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -242,7 +296,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
         panelPrincip.setLayer(btnNovoCad, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        panelPrincip.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(btnPesquisar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnAlterar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -266,6 +320,8 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         panelPrincip.setLayer(radioFem, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnTelef, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnEmail, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(btnEnder, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(btnLimpCamp, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -293,7 +349,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         centralizaForm(alu);
         panelPrincip.add(alu);
         alu.setVisible(true);
-        
+       
     }//GEN-LAST:event_btnNovoCadActionPerformed
 
     private void btnTelefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefActionPerformed
@@ -310,14 +366,56 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         em.setVisible(true);
     }//GEN-LAST:event_btnEmailActionPerformed
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        Alunos_bean bean = new Alunos_bean();
+        Alunos_controller controller = new Alunos_controller();
+        
+        bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+        bean.setAluNome(txtNome.getText());
+        bean.setAluCpf(txtCpf.getText());
+        bean.setAluIdade(Integer.valueOf(txtIdade.getText()));
+        bean.setAluPeso(Float.valueOf(txtPeso.getText()));
+        bean.setAluCep(txtCep.getText());
+        bean.setAluNumResid(Integer.valueOf(txtNumRes.getText()));
+        if(radioMasc.isSelected()){
+            bean.setAluSexo("Masculino");
+        }
+        if(radioFem.isSelected()){
+            bean.setAluSexo("Feminino");
+        }
+        bean.setValDesc(Float.valueOf(txtDesc.getText()));
+        
+        try {
+          alunos =   controller.ConsultaUltimoCadastro(bean);
+          MostraPesquisa();
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(this, ex);   
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnLimpCampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpCampActionPerformed
+        txtCodAlu.setText("0");
+        txtNome.setText("");
+        txtCpf.setText("");
+        txtPeso.setText("0");
+        txtIdade.setText("0");
+        txtCep.setText("");
+        txtDesc.setText("0");
+        txtNumRes.setText("0");
+        grupoRadio.clearSelection();
+        
+    }//GEN-LAST:event_btnLimpCampActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnEmail;
+    private javax.swing.JButton btnEnder;
+    private javax.swing.JButton btnLimpCamp;
     private javax.swing.JButton btnNovoCad;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnTelef;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.ButtonGroup grupoRadio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -349,7 +447,48 @@ private void centralizaForm(JInternalFrame frame) {
                 (desktopSize.height - jInternalFrameSize.height) / 2);
     }
 
-public void recebeInf(String cod){
-    txtCodAlu.setText(cod);
+public void MostraPesquisa(){
+    while(tmAlus.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
+            tmAlus.removeRow(0); // e as remove
+            }
+            if(alunos.size() == 0){
+        
+            JOptionPane.showMessageDialog(this,"Nenhum aluno localizado na pesquisa");
+               }else{
+                String[] linha = new String[] {null, null, null, null};
+        for( int i=0; i <alunos.size(); i++){
+           
+            tmAlus.addRow(linha);
+            tmAlus.setValueAt(alunos.get(i).getAluCod(), i, 0);
+            tmAlus.setValueAt(alunos.get(i).getAluNome(), i, 1);
+            tmAlus.setValueAt(alunos.get(i).getAluCpf(), i, 2);
+            tmAlus.setValueAt(alunos.get(i).getAluIdade(), i, 3);
+            tmAlus.setValueAt(alunos.get(i).getAluSexo(), i, 4);
+            
+               }
+                }
 }
+
+private void LinhaSelecionada(JTable tabela){
+
+        if (tbAlu.getSelectedRow() != -1) {
+        txtCodAlu.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluCod()));
+        txtNome.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluNome()));
+        txtCpf.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluCpf()));
+        txtPeso.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluPeso()));
+        txtIdade.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluIdade()));
+        txtCep.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluCep()));
+        txtDesc.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getValDesc()));
+        txtNumRes.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluNumResid()));
+        if(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluSexo()).equals("Masculino")){
+            
+            radioMasc.setSelected(true);
+        }
+        if(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluSexo()).equals("Feminino")){
+            
+            radioFem.setSelected(true);
+        }
+        }
+    }
+
 }
