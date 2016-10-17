@@ -7,6 +7,8 @@ package br.control.gui;
 
 import br.control.Beans.Alunos_bean;
 import br.control.Controller.Alunos_controller;
+import br.control.interfaces.InterfaceValida;
+import br.control.interfaces.Validacoes;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.List;
@@ -58,18 +60,18 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         txtCodAlu = new javax.swing.JTextField();
         txtNome = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JTextField();
         txtPeso = new javax.swing.JTextField();
         txtIdade = new javax.swing.JTextField();
-        txtCep = new javax.swing.JTextField();
         txtNumRes = new javax.swing.JTextField();
-        txtDesc = new javax.swing.JTextField();
         radioMasc = new javax.swing.JRadioButton();
         radioFem = new javax.swing.JRadioButton();
         btnTelef = new javax.swing.JButton();
         btnEmail = new javax.swing.JButton();
         btnEnder = new javax.swing.JButton();
         btnLimpCamp = new javax.swing.JButton();
+        txtCpf = new javax.swing.JFormattedTextField();
+        txtCep = new javax.swing.JFormattedTextField();
+        txtDesc = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -96,6 +98,11 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         });
 
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         tbAlu.setModel(tmAlus);
         tbAlu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -135,8 +142,6 @@ public class CadAlunos extends javax.swing.JInternalFrame {
 
         txtNumRes.setText("0");
 
-        txtDesc.setText("0");
-
         grupoRadio.add(radioMasc);
         radioMasc.setText("Masculino");
 
@@ -158,6 +163,11 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         });
 
         btnEnder.setText("Endereço completo");
+        btnEnder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnderActionPerformed(evt);
+            }
+        });
 
         btnLimpCamp.setText("Limpar campos");
         btnLimpCamp.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +175,26 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                 btnLimpCampActionPerformed(evt);
             }
         });
+
+        try {
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try{
+            javax.swing.text.MaskFormatter desc= new javax.swing.text.MaskFormatter("##.#0%");
+            txtDesc = new javax.swing.JFormattedTextField(desc);
+        }
+        catch (Exception e){
+        }
+        txtDesc.setText("0");
 
         javax.swing.GroupLayout panelPrincipLayout = new javax.swing.GroupLayout(panelPrincip);
         panelPrincip.setLayout(panelPrincipLayout);
@@ -188,36 +218,41 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelPrincipLayout.createSequentialGroup()
                                         .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(panelPrincipLayout.createSequentialGroup()
-                                                .addGap(205, 205, 205)
                                                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(panelPrincipLayout.createSequentialGroup()
-                                                        .addComponent(jLabel7)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(txtNumRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(panelPrincipLayout.createSequentialGroup()
+                                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(96, 96, 96)
                                                         .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel5)
-                                                            .addComponent(jLabel6))
-                                                        .addGap(56, 56, 56)
+                                                            .addGroup(panelPrincipLayout.createSequentialGroup()
+                                                                .addComponent(jLabel7)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(txtNumRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addGroup(panelPrincipLayout.createSequentialGroup()
+                                                                .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(jLabel5)
+                                                                    .addComponent(jLabel6))
+                                                                .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addGroup(panelPrincipLayout.createSequentialGroup()
+                                                                        .addGap(56, 56, 56)
+                                                                        .addComponent(txtIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                    .addGroup(panelPrincipLayout.createSequentialGroup()
+                                                                        .addGap(55, 55, 55)
+                                                                        .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                        .addGap(55, 55, 55)
                                                         .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(txtIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addGap(55, 55, 55)
-                                                .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel8)
-                                                    .addComponent(jLabel9))
+                                                            .addComponent(jLabel8)
+                                                            .addComponent(jLabel9)))
+                                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(27, 27, 27)
                                                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(panelPrincipLayout.createSequentialGroup()
                                                         .addComponent(radioMasc)
                                                         .addGap(18, 18, 18)
                                                         .addComponent(radioFem))
-                                                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 128, Short.MAX_VALUE))
+                                                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(0, 87, Short.MAX_VALUE))
                                     .addGroup(panelPrincipLayout.createSequentialGroup()
                                         .addComponent(txtCodAlu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -248,7 +283,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                     .addComponent(btnTelef)
                     .addComponent(btnEmail)
                     .addComponent(btnEnder))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
                     .addComponent(btnLimpCamp))
@@ -275,7 +310,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)
                                 .addComponent(txtNumRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(panelPrincipLayout.createSequentialGroup()
-                            .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelPrincipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
                                 .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
@@ -310,18 +345,18 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         panelPrincip.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(txtCodAlu, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(txtNome, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        panelPrincip.setLayer(txtCpf, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(txtPeso, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(txtIdade, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        panelPrincip.setLayer(txtCep, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(txtNumRes, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        panelPrincip.setLayer(txtDesc, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(radioMasc, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(radioFem, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnTelef, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnEmail, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnEnder, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelPrincip.setLayer(btnLimpCamp, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(txtCpf, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(txtCep, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincip.setLayer(txtDesc, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -356,6 +391,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
      CadAlunos_telefones tel = new CadAlunos_telefones();
         centralizaForm(tel);
         panelPrincip.add(tel);
+        tel.RecebeCod(txtCodAlu.getText());
         tel.setVisible(true);
     }//GEN-LAST:event_btnTelefActionPerformed
 
@@ -363,6 +399,7 @@ public class CadAlunos extends javax.swing.JInternalFrame {
     CadAlunos_emails em = new CadAlunos_emails();
         centralizaForm(em);
         panelPrincip.add(em);
+        em.RecebeCod(txtCodAlu.getText());
         em.setVisible(true);
     }//GEN-LAST:event_btnEmailActionPerformed
 
@@ -372,10 +409,10 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         
         bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
         bean.setAluNome(txtNome.getText());
-        bean.setAluCpf(txtCpf.getText());
+        bean.setAluCpf(txtCpf.getText().replace(".", "").replace("-", "").replaceAll(" ", ""));
         bean.setAluIdade(Integer.valueOf(txtIdade.getText()));
         bean.setAluPeso(Float.valueOf(txtPeso.getText()));
-        bean.setAluCep(txtCep.getText());
+        bean.setAluCep(txtCep.getText().replace("-", "").replaceAll(" ", ""));
         bean.setAluNumResid(Integer.valueOf(txtNumRes.getText()));
         if(radioMasc.isSelected()){
             bean.setAluSexo("Masculino");
@@ -383,10 +420,10 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         if(radioFem.isSelected()){
             bean.setAluSexo("Feminino");
         }
-        bean.setValDesc(Float.valueOf(txtDesc.getText()));
+        bean.setValDesc(Float.valueOf(txtDesc.getText().replace(".", "").replace("%", "").replace(" ", "")));
         
         try {
-          alunos =   controller.ConsultaUltimoCadastro(bean);
+          alunos =   controller.ConsultaAlu(bean);
           MostraPesquisa();
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(this, ex);   
@@ -400,11 +437,61 @@ public class CadAlunos extends javax.swing.JInternalFrame {
         txtPeso.setText("0");
         txtIdade.setText("0");
         txtCep.setText("");
-        txtDesc.setText("0");
+        txtDesc.setText("000");
         txtNumRes.setText("0");
         grupoRadio.clearSelection();
         
     }//GEN-LAST:event_btnLimpCampActionPerformed
+
+    private void btnEnderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnderActionPerformed
+        CadAlunos_endereco em = new CadAlunos_endereco();
+        centralizaForm(em);
+        panelPrincip.add(em);
+        em.consultaCep(txtCep.getText().replace("-", "").replaceAll(" ", ""),txtNumRes.getText());
+        em.setVisible(true);
+    }//GEN-LAST:event_btnEnderActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+       Alunos_bean bean = new Alunos_bean();
+       Alunos_controller controller = new Alunos_controller();
+       InterfaceValida i = new Validacoes();
+       
+       if(!i.ValidaCpf(txtCpf.getText().replace("-", "").replace(".", ""))){
+            JOptionPane.showMessageDialog(this, "CPF inválido. Adicione um CPF correto.","Atenção",JOptionPane.WARNING_MESSAGE);   
+            txtCpf.grabFocus();
+            }else{
+        bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+        bean.setAluNome(txtNome.getText());
+        bean.setAluCpf(txtCpf.getText().replace("-", "").replace(".", "").replaceAll(" ", ""));
+        bean.setAluPeso(Float.valueOf(txtPeso.getText()));
+        bean.setAluIdade(Integer.valueOf(txtIdade.getText()));
+        bean.setAluCep(txtCep.getText().replace("-", "").replaceAll(" ", ""));
+        bean.setAluNumResid(Integer.valueOf(txtNumRes.getText()));
+        
+        if(radioMasc.isSelected()){
+            bean.setAluSexo("Masculino");
+        }else if(radioFem.isSelected()){
+            bean.setAluSexo("Feminino");
+        }
+        
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a alteração deste cadastro?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
+        
+        try{
+        controller.AlteraAlu(bean);
+        JOptionPane.showMessageDialog(this, "Cadastro de aluno alerado com sucesso.");   
+        
+        bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+        alunos =   controller.ConsultaAlu(bean);
+        MostraPesquisa();
+        
+        }catch(SQLException ex){
+         JOptionPane.showMessageDialog(this, ex);   
+        }
+        }
+       }
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -430,9 +517,9 @@ public class CadAlunos extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radioFem;
     private javax.swing.JRadioButton radioMasc;
     private javax.swing.JTable tbAlu;
-    private javax.swing.JTextField txtCep;
+    private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCodAlu;
-    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtIdade;
     private javax.swing.JTextField txtNome;
@@ -478,7 +565,11 @@ private void LinhaSelecionada(JTable tabela){
         txtPeso.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluPeso()));
         txtIdade.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluIdade()));
         txtCep.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluCep()));
+        if(String.valueOf(alunos.get(tabela.getSelectedRow()).getValDesc()).equals("0.0")){
+            txtDesc.setText("000");
+        }else{
         txtDesc.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getValDesc()));
+        }
         txtNumRes.setText(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluNumResid()));
         if(String.valueOf(alunos.get(tabela.getSelectedRow()).getAluSexo()).equals("Masculino")){
             

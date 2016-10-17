@@ -54,6 +54,7 @@ private Connection conexao;
     
     
     public void cadTelefAlu(String tel, String tip)throws SQLException{
+        
         String sql = "INSERT INTO [dbo].[t_telefAlu]\n" +
 "           ([aluCod]\n" +
 "           ,[telefNum]\n" +
@@ -88,6 +89,118 @@ private Connection conexao;
         stmt.execute();
         stmt.close();
     }
+    
+    public void cadTelefAlu(Alunos_bean bean)throws SQLException{
+        
+        String sql = "INSERT INTO [dbo].[t_telefAlu]\n" +
+"           ([aluCod]\n" +
+"           ,[telefNum]\n" +
+"           ,[telefTip])\n" +
+"           VALUES\n" +
+"           (?\n" +
+"           ,?\n" +
+"           ,?)";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setInt(1, bean.getAluCod());
+        stmt.setString(2, bean.getAluTelefone());
+        stmt.setString(3, bean.getTelefTip());
+        
+        stmt.execute();
+        stmt.close();
+    }
+    
+    public void cadEmailAlu(Alunos_bean bean)throws SQLException{
+        String sql = "INSERT INTO [dbo].[t_emailAlu]\n" +
+"           ([aluCod]\n" +
+"           ,[emailAlu])\n" +
+      "     VALUES\n" +
+"           (?\n" +
+"           ,?)";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setInt(1, bean.getAluCod());
+        stmt.setString(2, bean.getAluEmail());
+        
+        
+        stmt.execute();
+        stmt.close();
+    }
+    
+    public void AlteraEmailAlu(Alunos_bean bean)throws SQLException{
+        String sql = "update t_emailAlu set emailAlu = ? where  emailCod = ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setString(1, bean.getAluEmail());
+        stmt.setInt(2, bean.getEmailCod());
+        
+        stmt.execute();
+        stmt.close();
+    }
+    
+    public void AlteraTelefAlu(Alunos_bean bean)throws SQLException{
+        String sql = "update t_telefAlu set telefNum = ? where telefCod = ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setString(1, bean.getAluTelefone());
+        stmt.setInt(2, bean.getTelefCod());
+        
+        stmt.execute();
+        stmt.close();
+    }
+    
+    public void AlteraAlu(Alunos_bean bean)throws SQLException{
+        
+            String sql = "update t_alu set aluNome = ?, aluCpf = ?, aluPeso = ?, aluSexo = ?, aluIdade = ?\n" +
+",aluCep = ?, aluNumResid = ? where aluCod = ?";
+             
+             PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setString(1, bean.getAluNome());
+        stmt.setString(2, bean.getAluCpf());
+        stmt.setFloat(3, bean.getAluPeso());
+        stmt.setString(4, bean.getAluSexo());
+        stmt.setInt(5, bean.getAluIdade());
+        stmt.setString(6, bean.getAluCep());
+        stmt.setInt(7, bean.getAluNumResid());
+        stmt.setInt(8, bean.getAluCod());
+        
+        stmt.execute();
+        stmt.close();
+        
+    }
+    
+    public void ExcluiTelAlu(Alunos_bean bean)throws SQLException{
+        
+            String sql = "delete from t_telefAlu where telefCod = ?";
+             
+             PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setInt(1, bean.getTelefCod());
+        
+        stmt.execute();
+        stmt.close();
+        
+    }
+    
+    public void ExcluiEmailAlu(Alunos_bean bean)throws SQLException{
+        
+            String sql = "delete from t_emailAlu where emailCod = ?";
+             
+             PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        stmt.setInt(1, bean.getEmailCod());
+        
+        stmt.execute();
+        stmt.close();
+        
+    }
+    
+    
     
     public List<Alunos_bean> ConsultaAlu(Alunos_bean bean)throws SQLException{
     
@@ -386,8 +499,6 @@ private Connection conexao;
             sql = "select * from t_alu where aluSexo = '"+bean.getAluSexo()+"'";
         }
         
-        System.out.println(sql);
-        
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         
@@ -403,9 +514,9 @@ private Connection conexao;
             c1.setAluSexo(rs.getString("aluSexo"));
             c1.setAluIdade(rs.getInt("aluIdade"));
             if(rs.getString("aluDescVal") == null){
-                c1.setAluDescVal(0);
+                c1.setValDesc(000);
             }else{
-            c1.setAluDescVal(rs.getInt("aluDescVal"));
+                c1.setValDesc(ConsultaValDesc(rs.getInt("aluDescVal")));
             }
             c1.setAluCep(rs.getString("aluCep"));
             c1.setAluNumResid(rs.getInt("aluNumResid"));
@@ -416,4 +527,92 @@ private Connection conexao;
         stmt.close();
         return lista;
     }
+    
+      public List<Alunos_bean> ConsultaTelefsAlu(Alunos_bean bean)throws SQLException{
+        
+          String sql = "select * from t_telefAlu where aluCod = ?";
+          
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setInt(1, bean.getAluCod());
+        ResultSet rs = stmt.executeQuery();
+        
+        
+        
+        ArrayList<Alunos_bean> lista = new ArrayList<>();
+        while (rs.next()) {
+            Alunos_bean c1 = new Alunos_bean();
+            
+            c1.setTelefCod(rs.getInt("telefCod"));
+            c1.setAluTelefone(rs.getString("telefNum"));
+            c1.setTelefTip(rs.getString("telefTip"));       
+            
+            lista.add(c1);
+        }
+        rs.close();
+        stmt.close();
+        return lista;
+      }
+      
+      public List<Alunos_bean> ConsultaEmailAlu(Alunos_bean bean)throws SQLException{
+          String sql = "select * from t_emailAlu where aluCod = ?";
+          
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setInt(1, bean.getAluCod());
+        ResultSet rs = stmt.executeQuery();
+        
+        ArrayList<Alunos_bean> lista = new ArrayList<>();
+        while (rs.next()) {
+            Alunos_bean c1 = new Alunos_bean();
+            
+            c1.setEmailCod(rs.getInt("emailCod"));
+            c1.setAluEmail(rs.getString("emailAlu"));
+            
+            lista.add(c1);
+        }
+        rs.close();
+        stmt.close();
+        return lista;
+      }
+      
+      public int ConsultaTotMatr(int cod)throws SQLException{
+        String sql = "select COUNT(matrCod)matrCod from t_matrAlu where aluCod = ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setInt(1, cod);
+        ResultSet rs = stmt.executeQuery();
+        
+        
+        
+        int tot = 0;
+        while (rs.next()) {
+            
+            
+            tot = rs.getInt("matrCod");
+            
+            
+        }
+        rs.close();
+        stmt.close();
+        return tot;
+    }
+      
+      public float ConsultaValDesc(int cod)throws SQLException{
+        String sql = "select * from t_descVal where descCod = ? and descStatus = 'Ativo'";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setInt(1, cod);
+        ResultSet rs = stmt.executeQuery();
+        
+        float descVal = 0;
+        while (rs.next()) {
+           Alunos_bean c1 = new Alunos_bean();
+           
+            descVal = rs.getFloat("descVal");
+            
+        }
+        rs.close();
+        stmt.close();
+        return descVal;
+    }
+      
 }

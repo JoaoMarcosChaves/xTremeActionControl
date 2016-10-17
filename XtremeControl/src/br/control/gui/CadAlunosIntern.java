@@ -380,6 +380,11 @@ private String nome;
         }else if(radioFem.isSelected()){
             bean.setAluSexo("Feminino");
         }
+        
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a inserção desse aluno?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
+        
         try{
         controller.cadAluno(bean);
        
@@ -413,7 +418,7 @@ private String nome;
         }catch(SQLException ex){
          JOptionPane.showMessageDialog(this, ex);   
         }
-        
+        }
         }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed

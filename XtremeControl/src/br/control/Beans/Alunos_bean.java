@@ -21,6 +21,61 @@ private int aluDescVal;
 private String aluCep;
 private int aluNumResid;
 private float valDesc;
+private String aluTelefone;
+private String aluEmail;
+private String telefTip;
+private int telefCod;
+private int emailCod;
+private int totMatr;
+
+    public int getTotMatr() {
+        return totMatr;
+    }
+
+    public void setTotMatr(int totMatr) {
+        this.totMatr = totMatr;
+    }
+
+
+
+    public int getTelefCod() {
+        return telefCod;
+    }
+
+    public void setTelefCod(int telefCod) {
+        this.telefCod = telefCod;
+    }
+
+    public int getEmailCod() {
+        return emailCod;
+    }
+
+    public void setEmailCod(int emailCod) {
+        this.emailCod = emailCod;
+    }
+
+    public String getTelefTip() {
+        return telefTip;
+    }
+
+    public void setTelefTip(String telefTip) {
+        this.telefTip = telefTip;
+    }
+    public String getAluTelefone() {
+        return aluTelefone;
+    }
+
+    public void setAluTelefone(String aluTelefone) {
+        this.aluTelefone = aluTelefone;
+    }
+
+    public String getAluEmail() {
+        return aluEmail;
+    }
+
+    public void setAluEmail(String aluEmail) {
+        this.aluEmail = aluEmail;
+    }
 
     public int getAluCod() {
         return aluCod;

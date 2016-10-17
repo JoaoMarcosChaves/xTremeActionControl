@@ -5,6 +5,17 @@
  */
 package br.control.gui;
 
+import br.control.Beans.Alunos_bean;
+import br.control.Controller.Alunos_controller;
+import br.control.interfaces.InterfaceValida;
+import br.control.interfaces.Validacoes;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,7 +24,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CadAlunos_emails extends javax.swing.JInternalFrame {
 
-    DefaultTableModel tmTelefs = new DefaultTableModel (null, new String [] {"E-mail numero","E-mail"});
+    DefaultTableModel tmEmail = new DefaultTableModel (null, new String [] {"E-mail"});
+    List<Alunos_bean> emails;
+    ListSelectionModel lsmEmail;
     public CadAlunos_emails() {
         initComponents();
     }
@@ -36,6 +49,9 @@ public class CadAlunos_emails extends javax.swing.JInternalFrame {
         btnExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbEmails = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        txtCodEmail = new javax.swing.JTextField();
+        btnSalvNovo = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -45,12 +61,44 @@ public class CadAlunos_emails extends javax.swing.JInternalFrame {
 
         jLabel2.setText("E-mail:");
 
+        txtCodAlu.setEnabled(false);
+
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
-        tbEmails.setModel(tmTelefs);
+        tbEmails.setModel(tmEmail);
+        tbEmails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lsmEmail= tbEmails.getSelectionModel();
+        lsmEmail.addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent e){
+                if (! e.getValueIsAdjusting()){
+                    LinhaSelecionada(tbEmails);
+                }
+            }
+        });
         jScrollPane1.setViewportView(tbEmails);
+
+        jLabel3.setText("Cod. Email:");
+
+        txtCodEmail.setEnabled(false);
+
+        btnSalvNovo.setText("Salvar novo");
+        btnSalvNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvNovoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,25 +106,35 @@ public class CadAlunos_emails extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCodAlu))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAlterar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcluir)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnAlterar)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnExcluir)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSalvNovo))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3))
+                        .addContainerGap(32, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCodEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCodAlu, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCodAlu, txtCodEmail});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -86,13 +144,18 @@ public class CadAlunos_emails extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtCodAlu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtCodEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
-                    .addComponent(btnExcluir))
+                    .addComponent(btnExcluir)
+                    .addComponent(btnSalvNovo))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,16 +178,139 @@ public class CadAlunos_emails extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        Alunos_bean bean = new Alunos_bean();
+        Alunos_controller controller = new Alunos_controller();
+        
+        bean.setAluEmail(txtEmail.getText());
+        bean.setEmailCod(Integer.valueOf(txtCodEmail.getText()));
+        
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a alteração deste E-mail?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
+        try {
+            controller.AlteraEmailAlu(bean);
+            JOptionPane.showMessageDialog(this, "E-mail alterado com sucesso");  
+            
+            bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+            emails = controller.ConsultaEmailAlu(bean);
+            MostraPesquisa();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);   
+        }
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        Alunos_bean bean = new Alunos_bean();
+        Alunos_controller controller = new Alunos_controller();
+        
+        bean.setEmailCod(Integer.valueOf(txtCodEmail.getText()));
+        
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a exclusão deste E-mail?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
+            
+            try{
+                controller.ExcluiEmailAlu(bean);
+                JOptionPane.showMessageDialog(this, "E-mail excluído com sucesso");   
+                bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+                emails = controller.ConsultaEmailAlu(bean);
+                MostraPesquisa();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(this, ex);   
+            }
+            
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnSalvNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvNovoActionPerformed
+        Alunos_bean bean = new Alunos_bean();
+        Alunos_controller controller = new Alunos_controller();
+        InterfaceValida i = new Validacoes();
+        
+        bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+        bean.setAluEmail(txtEmail.getText());
+        
+        int resp = JOptionPane.showConfirmDialog(this,"Confirma a inserção deste novo E-mail?",
+        "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_NO_OPTION){
+            
+            if(!txtEmail.getText().equals("")){
+            if(i.ValidaEmail(txtEmail.getText())){
+                
+            try{
+                controller.cadEmailAlu(bean);
+                JOptionPane.showMessageDialog(this, "Novo E-mail cadastrado com sucesso");   
+                bean.setAluCod(Integer.valueOf(txtCodAlu.getText()));
+                emails = controller.ConsultaEmailAlu(bean);
+                MostraPesquisa();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(this, ex);   
+            }
+        }else{
+             JOptionPane.showMessageDialog(this, "Formato de email inválido.","Atenção",JOptionPane.WARNING_MESSAGE);   
+            }
+            
+        }
+        }
+    }//GEN-LAST:event_btnSalvNovoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnSalvNovo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbEmails;
     private javax.swing.JTextField txtCodAlu;
+    private javax.swing.JTextField txtCodEmail;
     private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
+public void RecebeCod(String cod){
+    txtCodAlu.setText(cod);
+    Alunos_bean bean = new Alunos_bean();
+    Alunos_controller controller = new Alunos_controller();
+    
+    bean.setAluCod(Integer.valueOf(cod));
+        try {
+           emails = controller.ConsultaEmailAlu(bean);
+           MostraPesquisa();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);   
+        }
+    
+}
+
+public void MostraPesquisa(){
+    while(tmEmail.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
+            tmEmail.removeRow(0); // e as remove
+            }
+            if(emails.size() == 0){
+        
+            JOptionPane.showMessageDialog(this,"Nenhum telefone vinculado ao aluno selecionado");
+               }else{
+                String[] linha = new String[] {null, null, null, null};
+        for( int i=0; i <emails.size(); i++){
+           
+            tmEmail.addRow(linha);
+            tmEmail.setValueAt(emails.get(i).getAluEmail(), i, 0);
+            
+               }
+                }
+}
+
+private void LinhaSelecionada(JTable tabela){
+
+        if (tbEmails.getSelectedRow() != -1) {
+            
+            
+            txtEmail.setText(String.valueOf(emails.get(tabela.getSelectedRow()).getAluEmail()));        
+            txtCodEmail.setText(String.valueOf(emails.get(tabela.getSelectedRow()).getEmailCod()));        
+        }
+    }
 }
