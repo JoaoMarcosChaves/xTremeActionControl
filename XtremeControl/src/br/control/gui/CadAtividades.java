@@ -4,14 +4,21 @@ package br.control.gui;
 import br.control.Beans.Ativ_bean;
 import br.control.Controller.Ativ_controller;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -36,17 +43,15 @@ public class CadAtividades extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtNomeAtivCad = new javax.swing.JTextField();
-        txtValorAtivCad = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescAtivCad = new javax.swing.JTextArea();
         btnSalvar = new javax.swing.JButton();
+        txtValorAtivCad = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         txtCodAtiv = new javax.swing.JTextField();
         txtNomeAtivCons = new javax.swing.JTextField();
-        txtValorAtivCons = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnDesativar = new javax.swing.JButton();
@@ -58,6 +63,8 @@ public class CadAtividades extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDescAtivCons = new javax.swing.JTextArea();
         btnLimpar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        txtValorAtivCons = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -70,7 +77,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nome da atividade: ");
 
-        jLabel2.setText("Valor da atividade:");
+        jLabel2.setText("Valor da atividade:    R$");
 
         jLabel3.setText("Descrição:");
 
@@ -86,25 +93,28 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             }
         });
 
+        DecimalFormat dFormat = new DecimalFormat("###.00") ;
+        NumberFormatter formatter = new NumberFormatter(dFormat) ;
+        formatter.setFormat(dFormat) ;
+        formatter.setAllowsInvalid(false) ;
+
+        txtValorAtivCad.setFormatterFactory ( new DefaultFormatterFactory (formatter ) ) ;
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtValorAtivCad, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNomeAtivCad, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNomeAtivCad, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValorAtivCad, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(131, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -122,14 +132,13 @@ public class CadAtividades extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtValorAtivCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel3)))
-                .addGap(31, 31, 31)
-                .addComponent(btnSalvar)
+                        .addComponent(jLabel3)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnSalvar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -138,8 +147,6 @@ public class CadAtividades extends javax.swing.JInternalFrame {
         jLabel4.setText("Código da atividade:");
 
         jLabel5.setText("Nome da atividade:");
-
-        jLabel6.setText("Valor da atividade:");
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -196,6 +203,15 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel8.setText("Valor da atividade:    R$");
+
+        DecimalFormat dFormat1 = new DecimalFormat("###.00") ;
+        NumberFormatter formatter1 = new NumberFormatter(dFormat) ;
+        formatter1.setFormat(dFormat1) ;
+        formatter1.setAllowsInvalid(false) ;
+
+        txtValorAtivCons.setFormatterFactory ( new DefaultFormatterFactory (formatter1 ) ) ;
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -203,17 +219,17 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtCodAtiv, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtValorAtivCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtValorAtivCons)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -245,9 +261,6 @@ public class CadAtividades extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCodAtiv, txtValorAtivCons});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -267,9 +280,9 @@ public class CadAtividades extends javax.swing.JInternalFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
-                                .addComponent(jLabel6)
+                                .addComponent(jLabel8)
                                 .addComponent(txtValorAtivCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(54, 54, 54)))
+                            .addGap(51, 51, 51)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnLimpar)
@@ -314,6 +327,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
+        
         Ativ_bean bean = new Ativ_bean();
         Ativ_controller controller = new Ativ_controller();
         List<Ativ_bean> lista = new ArrayList<>();
@@ -325,7 +339,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             if(verificaCamposCad()){
                 
         bean.setAtivNome(txtNomeAtivCad.getText());
-        bean.setAtivValor(Float.valueOf(txtValorAtivCad.getText()));
+        bean.setAtivValor(Float.valueOf(txtValorAtivCad.getText().replace(",",".")));
         bean.setAtivDescr(txtDescAtivCad.getText());
                 
                controller.cadAtiv(bean);        
@@ -362,7 +376,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
             if(txtValorAtivCons.getText().equals("")){
             bean.setAtivValor(0);
             }else{
-            bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText()));    
+            bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText().replace(",",".")));    
             }
             bean.setAtivDescr(txtDescAtivCons.getText());
             if(checkFiltroDes.isSelected()){
@@ -404,7 +418,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
        
        bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));
        bean.setAtivNome(txtNomeAtivCons.getText());
-       bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText()));
+       bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText().replace(",",".")));
        bean.setAtivDescr(txtDescAtivCons.getText());
        
        int resp = JOptionPane.showConfirmDialog(this,"Confirma a alteração dessa atividade?",
@@ -478,8 +492,8 @@ Ativ_bean bean = new Ativ_bean();
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -491,8 +505,8 @@ Ativ_bean bean = new Ativ_bean();
     private javax.swing.JTextArea txtDescAtivCons;
     private javax.swing.JTextField txtNomeAtivCad;
     private javax.swing.JTextField txtNomeAtivCons;
-    private javax.swing.JTextField txtValorAtivCad;
-    private javax.swing.JTextField txtValorAtivCons;
+    private javax.swing.JFormattedTextField txtValorAtivCad;
+    private javax.swing.JFormattedTextField txtValorAtivCons;
     // End of variables declaration//GEN-END:variables
 
     public boolean verificaCamposCad(){
