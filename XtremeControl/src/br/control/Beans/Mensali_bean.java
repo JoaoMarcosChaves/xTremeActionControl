@@ -18,6 +18,35 @@ private String mensaliStatusPag;
 private Date mensaliDtVenc;
 private Date mensaliDtPag;
 private String ativNome;
+private int aluCod;
+private String aluNome;
+private float matrValMens;
+
+    public float getMatrValMens() {
+        return matrValMens;
+    }
+
+    public void setMatrValMens(float matrValMens) {
+        this.matrValMens = matrValMens;
+    }
+
+
+
+    public int getAluCod() {
+        return aluCod;
+    }
+
+    public void setAluCod(int aluCod) {
+        this.aluCod = aluCod;
+    }
+
+    public String getAluNome() {
+        return aluNome;
+    }
+
+    public void setAluNome(String aluNome) {
+        this.aluNome = aluNome;
+    }
 
     public String getAtivNome() {
         return ativNome;

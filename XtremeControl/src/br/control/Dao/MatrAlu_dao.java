@@ -41,6 +41,14 @@ public class MatrAlu_dao {
         stmt.close();
     }
     
+    
+    public void AdicionaNovaMensAosVenc()throws SQLException{
+        String sql = "exec p_insereNovasMens";
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.execute();
+        stmt.close();
+    }
+    
     public void TrancMatricAlu(Matricula_bean bean)throws SQLException{
         String sql = "update t_matrAlu set matrStatus = 'Trancado' where matrCod = ?";
         
@@ -441,7 +449,7 @@ public class MatrAlu_dao {
     
     public List<Mensali_bean> ConsultaMensalis(int cod)throws SQLException{
         
-        String sql = "select ms.mensaliCodPag,ms.mensaliDtVenc,a.ativNome,ms.mensaliStatusPag from t_mensali ms inner join t_matrAlu m\n" +
+        String sql = "select ms.mensaliCodPag,ms.mensaliDtVenc,a.ativNome,m.matrValMens,ms.mensaliStatusPag from t_mensali ms inner join t_matrAlu m\n" +
                      "on m.matrCod = ms.matrCod\n" +
                      "inner join t_ativ a\n" +
                      "on a.ativCod = m.ativCod\n" +
@@ -461,6 +469,41 @@ public class MatrAlu_dao {
         c1.setMensaliDtVenc(rs.getDate("mensaliDtVenc"));
         c1.setMensaliStatusPag(rs.getString("mensaliStatusPag"));
         c1.setAtivNome(rs.getString("ativNome"));
+        c1.setMatrValMens(rs.getFloat("matrValMens"));
+        
+        lista.add(c1);
+        }
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+    
+    public List<Mensali_bean> ConsultaMensalisDeTodos()throws SQLException{
+        
+        String sql = "select al.aluCod, al.aluNome,a.ativNome,m.matrValMens, ms.mensaliDtVenc,ms.mensaliStatusPag\n" +
+"from t_mensali ms inner join t_matrAlu m\n" +
+"on m.matrCod = ms.matrCod\n" +
+"inner join t_alu al\n" +
+"on al.aluCod = m.aluCod\n" +
+"inner join t_ativ a\n" +
+"on a.ativCod = m.ativCod\n" +
+"and ms.mensaliStatusPag = 'Aberta'\n" +
+"and GETDATE() > mensaliDtVenc";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        
+        
+        ResultSet rs = stmt.executeQuery();
+        List<Mensali_bean> lista = new ArrayList<>();
+        while (rs.next()) {
+        Mensali_bean c1 = new Mensali_bean();
+        
+        c1.setAluCod(rs.getInt("alucod"));
+        c1.setAluNome(rs.getString("aluNome"));
+        c1.setAtivNome(rs.getString("ativNome"));
+        c1.setMensaliDtVenc(rs.getDate("mensaliDtVenc"));
+        c1.setMensaliStatusPag(rs.getString("mensaliStatusPag"));
+        c1.setMatrValMens(rs.getFloat("matrValMens"));
         
         lista.add(c1);
         }

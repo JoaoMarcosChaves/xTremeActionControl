@@ -16,6 +16,8 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -32,7 +34,7 @@ import src.email.EnviaEmail;
 public class ConsultaMatriculas extends javax.swing.JInternalFrame {
 
     DefaultTableModel tmAlus = new DefaultTableModel (null, new String [] {"Código aluno" ,"Nome"});
-    DefaultTableModel tmMens = new DefaultTableModel (null, new String [] {"Código da mensalidade" ,"Data de vencimento","Atividade","Status"});
+    DefaultTableModel tmMens = new DefaultTableModel (null, new String [] {"Código da mensalidade" ,"Data de vencimento","Atividade","Valor mensalidade","Status"});
     ListSelectionModel lsmAlu;
     ListSelectionModel lsmMens;
     List<Matricula_bean> alunos = new ArrayList<>();
@@ -104,6 +106,7 @@ public class ConsultaMatriculas extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
+        setTitle("Consulta de matriculas");
 
         panelConsMat.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -301,7 +304,7 @@ public class ConsultaMatriculas extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
@@ -369,16 +372,14 @@ public class ConsultaMatriculas extends javax.swing.JInternalFrame {
         );
         panelConsMatLayout.setVerticalGroup(
             panelConsMatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGap(0, 507, Short.MAX_VALUE)
             .addGroup(panelConsMatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelConsMatLayout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(panelConsMatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelConsMatLayout.createSequentialGroup()
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 129, Short.MAX_VALUE)))
-                    .addContainerGap()))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(57, Short.MAX_VALUE)))
         );
         panelConsMat.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         panelConsMat.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -387,11 +388,11 @@ public class ConsultaMatriculas extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelConsMat, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(panelConsMat)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelConsMat, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(panelConsMat)
         );
 
         pack();
@@ -533,7 +534,8 @@ public class ConsultaMatriculas extends javax.swing.JInternalFrame {
             tmMens.setValueAt(mens.get(i).getMensaliCodPag(), i, 0);
             tmMens.setValueAt(String.valueOf(mens.get(i).getMensaliDtVenc()).replace("-", "/"), i, 1);
             tmMens.setValueAt(mens.get(i).getAtivNome(), i, 2);
-            tmMens.setValueAt(mens.get(i).getMensaliStatusPag(), i, 3);
+            tmMens.setValueAt(String.valueOf("R$ "+mens.get(i).getMatrValMens()).replace(".", ","), i, 3);
+            tmMens.setValueAt(mens.get(i).getMensaliStatusPag(), i, 4);
             
                }
                 }
@@ -591,4 +593,31 @@ private void centralizaForm(JInternalFrame frame) {
         frame.setLocation((desktopSize.width - jInternalFrameSize.width) / 2,
                 (desktopSize.height - jInternalFrameSize.height) / 2);
     }
+
+public void RecebeInf(int cod, String nome){
+    MatrAlu_controller controller = new MatrAlu_controller();
+    txtCodAlu.setText(String.valueOf(cod));
+    txtNome.setText(nome);
+    txtCep.setEnabled(false);
+    txtCodAlu.setEnabled(false);
+    txtCpf.setEnabled(false);
+    txtIdade.setEnabled(false);
+    txtMat.setEnabled(false);
+    txtNome.setEnabled(false);
+    txtNumRes.setEnabled(false);
+    txtPeso.setEnabled(false);
+    btnPesquisar.setEnabled(false);
+    btnLimpCamp.setEnabled(false);
+    radioFem.setEnabled(false);
+    radioMasc.setEnabled(false);
+    comboAtiv.setEnabled(false);
+    
+        try {
+            mens = controller.ConsultaMensalis(Integer.valueOf(txtCodAlu.getText()));
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaMatriculas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    MostraPesquisaMens();
+    
+}
 }

@@ -81,4 +81,18 @@ public void CadMatricAlu(Matricula_bean bean)throws SQLException{
         
         dao.MarcarMensPaga(bean);
     }
+    
+    public List<Mensali_bean> ConsultaMensalisDeTodos()throws SQLException{
+        MatrAlu_dao dao = new MatrAlu_dao();
+        List<Mensali_bean> lista = new ArrayList<>();
+        
+        lista = dao.ConsultaMensalisDeTodos();
+                
+        return lista;
+    }
+    
+    public void AdicionaNovaMensAosVenc()throws SQLException{
+        MatrAlu_dao dao = new MatrAlu_dao();
+        dao.AdicionaNovaMensAosVenc();
+    }
 }

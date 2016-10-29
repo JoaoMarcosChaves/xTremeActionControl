@@ -28,6 +28,10 @@ public class Principal extends javax.swing.JFrame {
 
         panelPrincipal = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtUser = new javax.swing.JTextField();
+        txtCodCnx = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemCadAtiv = new javax.swing.JMenuItem();
@@ -37,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItemMensVenc = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -50,6 +55,14 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/principal.jpg"))); // NOI18N
 
+        jLabel2.setText("Usuário:");
+
+        jLabel3.setText("Conexão:");
+
+        txtUser.setEnabled(false);
+
+        txtCodCnx.setEnabled(false);
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -58,15 +71,38 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(272, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(288, 288, 288))
+            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(txtCodCnx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        panelPrincipalLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCodCnx, txtUser});
+
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodCnx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
         );
         panelPrincipal.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincipal.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincipal.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincipal.setLayer(txtUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelPrincipal.setLayer(txtCodCnx, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu1.setText("Cadastros");
 
@@ -116,7 +152,16 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(MatricularAlu);
 
-        jMenu3.setText("Pagina inicial");
+        jMenu3.setText("Mensalidades");
+
+        jMenuItemMensVenc.setText("Mensalidades vencidas");
+        jMenuItemMensVenc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMensVencActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemMensVenc);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Administração do sistema");
@@ -201,6 +246,13 @@ MatriculaAlunos m = new MatriculaAlunos();
         m.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItemMensVencActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMensVencActionPerformed
+        MensalidadesAbertas m = new MensalidadesAbertas();
+        centralizaForm(m);
+        panelPrincipal.add(m);
+        m.setVisible(true);
+    }//GEN-LAST:event_jMenuItemMensVencActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,6 +291,8 @@ MatriculaAlunos m = new MatriculaAlunos();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MatricularAlu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -251,7 +305,10 @@ MatriculaAlunos m = new MatriculaAlunos();
     private javax.swing.JMenuItem jMenuItemCadAluno;
     private javax.swing.JMenuItem jMenuItemCadAtiv;
     private javax.swing.JMenuItem jMenuItemCadDesc;
+    private javax.swing.JMenuItem jMenuItemMensVenc;
     private javax.swing.JDesktopPane panelPrincipal;
+    private javax.swing.JTextField txtCodCnx;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
  private void centralizaForm(JInternalFrame frame) {

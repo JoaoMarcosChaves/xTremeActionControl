@@ -61,6 +61,7 @@ public class EnviaEmailCobranc extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setTitle("E-mail cobrança");
 
         tbEmails.setModel(tmEmail);
         tbEmails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
