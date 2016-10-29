@@ -307,7 +307,7 @@ private Connection conexao;
         else if (bean.getAluCod() == 0 && bean.getAluNome().equals("") && bean.getAluCpf().equals("") && bean.getAluPeso() != 0
                 && bean.getAluIdade() != 0 && bean.getAluCep().equals("") && bean.getAluNumResid() == 0 && bean.getAluDescVal() == 0
                 && bean.getAluSexo()== null){
-            sql = "select * from t_alu where and aluIdade = "+bean.getAluIdade()+"\nand aluPeso = "+bean.getAluPeso();
+            sql = "select * from t_alu where aluIdade = "+bean.getAluIdade()+"\nand aluPeso = "+bean.getAluPeso();
         }
         else if (bean.getAluCod() == 0 && bean.getAluNome().equals("") && bean.getAluCpf().equals("") && bean.getAluPeso() != 0
                 && bean.getAluIdade() != 0 && !bean.getAluCep().equals("") && bean.getAluNumResid() == 0 && bean.getAluDescVal() == 0

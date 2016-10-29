@@ -3,6 +3,7 @@ package br.control.Controller;
 
 import br.control.Beans.Ativ_bean;
 import br.control.Beans.Matricula_bean;
+import br.control.Beans.Mensali_bean;
 import br.control.Dao.Ativ_dao;
 import br.control.Dao.MatrAlu_dao;
 import java.sql.SQLException;
@@ -54,5 +55,30 @@ public void CadMatricAlu(Matricula_bean bean)throws SQLException{
         MatrAlu_dao dao = new MatrAlu_dao();
         
         dao.DestrancMatricAlu(bean);
+    }
+    
+    public List<Matricula_bean> consultaMatriculasAlunosComp(Matricula_bean bean)throws SQLException{
+        MatrAlu_dao dao = new MatrAlu_dao();
+        List<Matricula_bean> lista = new ArrayList<>();
+        
+        lista = dao.consultaMatriculasAlunosComp(bean);
+                
+        return lista;
+    }
+    
+    public List<Mensali_bean> ConsultaMensalis(int cod)throws SQLException{
+        MatrAlu_dao dao = new MatrAlu_dao();
+        List<Mensali_bean> lista = new ArrayList<>();
+        
+        lista = dao.ConsultaMensalis(cod);
+                
+        return lista;
+        
+    }
+    
+    public void MarcarMensPaga(Mensali_bean bean)throws SQLException{
+        MatrAlu_dao dao = new MatrAlu_dao();
+        
+        dao.MarcarMensPaga(bean);
     }
 }
