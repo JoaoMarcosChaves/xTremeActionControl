@@ -35,6 +35,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItemCadAluno = new javax.swing.JMenuItem();
         MatricularAlu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
@@ -104,6 +105,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MatricularAlu.add(jMenuItem3);
+
+        jMenuItem4.setText("Consulta de matriculas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        MatricularAlu.add(jMenuItem4);
 
         jMenuBar1.add(MatricularAlu);
 
@@ -185,6 +194,13 @@ MatriculaAlunos m = new MatriculaAlunos();
         m.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        ConsultaMatriculas m = new ConsultaMatriculas();
+        centralizaForm(m);
+        panelPrincipal.add(m);
+        m.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,6 +247,7 @@ MatriculaAlunos m = new MatriculaAlunos();
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItemCadAluno;
     private javax.swing.JMenuItem jMenuItemCadAtiv;
     private javax.swing.JMenuItem jMenuItemCadDesc;

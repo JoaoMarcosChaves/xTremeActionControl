@@ -26,25 +26,14 @@ public class MatrAlu_dao {
     }    
     
     public void CadMatricAlu(Matricula_bean bean)throws SQLException{
-        String sql = "INSERT INTO [dbo].[t_matrAlu]\n" +
-"           ([aluCod]\n" +
-"           ,[ativCod]\n" +
-"           ,[matrValMens]\n" +
-"           ,[matrDt]"+
-"           ,[matrStatus])\n" +
-"           VALUES\n" +
-"           (?\n" +
-"           ,?\n" +
-"           ,?\n" +
-"           ,getdate()"+
-"           ,'Aberto')";
-        
+
+        String sql = "exec p_insereMatricula ?,?,?,?";
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         
         stmt.setInt(1, bean.getAluCod());
         stmt.setInt(2, bean.getAtivCod());
         stmt.setFloat(3, bean.getMatrValMens());
-        //stmt.setDate(4, bean.getMatrDtVenc());
+        stmt.setDate(4, bean.getMatrDtVenc());
         
         
         stmt.execute();
@@ -77,24 +66,7 @@ public class MatrAlu_dao {
         stmt.close();
     }
     
-    public void InsereInfMensal(Matricula_bean bean)throws SQLException{
-        String sql = "INSERT INTO [dbo].[t_mensali]\n" +
-"           ([matrCod]\n" +
-"           ,[mensaliStatusPag]\n" +
-"           ,[mensaliDtVenc])\n" +
-"           VALUES\n" +
-"           (?\n" +
-"           ,'Aberta'\n" +
-"           ,?)";
-        
-         PreparedStatement stmt = this.conexao.prepareStatement(sql);
-         
-         stmt.setInt(1, bean.getMatrCod());
-         stmt.setDate(2, bean.getMatrDtVenc());
-         
-         stmt.execute();
-         stmt.close();
-    }
+    
     
     public int ConsultaUltimaMat()throws SQLException{
         String sql = "select max(matrCod)matrCod from t_matrAlu";

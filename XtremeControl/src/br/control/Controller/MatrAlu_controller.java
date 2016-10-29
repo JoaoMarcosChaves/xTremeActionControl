@@ -28,11 +28,6 @@ public void CadMatricAlu(Matricula_bean bean)throws SQLException{
     dao.CadMatricAlu(bean);
 }
 
-public void InsereInfMensal(Matricula_bean bean)throws SQLException{
-         MatrAlu_dao dao = new MatrAlu_dao();
-         
-         dao.InsereInfMensal(bean);
-    }
     
     public int ConsultaUltimaMat()throws SQLException{
         MatrAlu_dao dao = new MatrAlu_dao();

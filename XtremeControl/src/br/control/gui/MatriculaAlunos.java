@@ -409,7 +409,6 @@ public class MatriculaAlunos extends javax.swing.JInternalFrame {
                     .addComponent(comboAtiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(txtValMens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel13)
@@ -535,14 +534,9 @@ public class MatriculaAlunos extends javax.swing.JInternalFrame {
     }else{
     if(!alunos.isEmpty() && !txtCodAluMat.getText().equals("")){
         
-        for(Alunos_bean i : alunos){
-            if(i.getAluCod() == Integer.valueOf(txtCodAlu.getText())){
-                desc = (listaAtiv.get(comboAtiv.getSelectedIndex()-1).getAtivValor() * i.getValDesc())/100;
-         //        System.out.println("percent da lista: "+i.getValDesc());
-            }
-        }
-        txtValMens.setText(String.valueOf(listaAtiv.get(comboAtiv.getSelectedIndex()-1).getAtivValor() - desc));
-       // System.out.println(desc);
+
+        txtValMens.setText(String.valueOf(listaAtiv.get(comboAtiv.getSelectedIndex()-1).getAtivValor()));
+
     }
     else{
         txtValMens.setText(String.valueOf(listaAtiv.get(comboAtiv.getSelectedIndex()-1).getAtivValor()));
@@ -561,14 +555,11 @@ public class MatriculaAlunos extends javax.swing.JInternalFrame {
         }catch(Exception e){}
         
         if(VerificaCampos()){
-//        System.out.println(txtCodAluMat.getText());
-//        System.out.println(String.valueOf(comboAtiv.getSelectedItem()).substring(0,String.valueOf(comboAtiv.getSelectedItem()).indexOf(" - ")).trim());
-//        System.out.println(txtValMens.getText());
-//        System.out.println(dataVenc);
+
             bean.setAluCod(Integer.valueOf(txtCodAluMat.getText()));
             bean.setAtivCod(Integer.valueOf(String.valueOf(comboAtiv.getSelectedItem()).substring(0,String.valueOf(comboAtiv.getSelectedItem()).indexOf(" - ")).trim()));
             bean.setMatrValMens(Float.valueOf(txtValMens.getText().replace(",", ".")));
-         //   bean.setMatrDtVenc(dataVenc);
+            bean.setMatrDtVenc(dataVenc);
             
             int resp = JOptionPane.showConfirmDialog(this,"Confirma a inserção da matricula aluno?",
         "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -577,11 +568,8 @@ public class MatriculaAlunos extends javax.swing.JInternalFrame {
             controller.CadMatricAlu(bean);
             JOptionPane.showMessageDialog(this, "Aluno matriculado com sucesso.");
             txtMat.setText(String.valueOf(controller.ConsultaUltimaMat()));
-             bean.setMatrCod(Integer.valueOf(txtMat.getText()));
-             bean.setMatrDtVenc(dataVenc);
-             
              try{
-            controller.InsereInfMensal(bean);
+
             bean.setAluCod(Integer.valueOf(txtCodAluMat.getText()));
             matriculas = controller.ConsultaMatriculas(bean);
             MostraPesquisaMat();
@@ -592,7 +580,6 @@ public class MatriculaAlunos extends javax.swing.JInternalFrame {
            }catch(SQLException ex){
                JOptionPane.showMessageDialog(this, ex);
            }
-           
         }
         }
         
@@ -703,7 +690,7 @@ public void MostraPesquisaMat(){
             }
             if(matriculas.size() == 0){
         
-            JOptionPane.showMessageDialog(this,"Nenhum aluno localizado na pesquisa");
+            JOptionPane.showMessageDialog(this,"Nenhuma matricula localizada.");
                }else{
                 String[] linha = new String[] {null, null, null, null};
         for( int i=0; i <matriculas.size(); i++){
@@ -764,10 +751,8 @@ private void LinhaSelecionadaMat(JTable tabela){
         if (tbMats.getSelectedRow() != -1) {
         
         txtMat.setText(String.valueOf(matriculas.get(tabela.getSelectedRow()).getMatrCod()));
-        txtValMens.setText(String.valueOf(matriculas.get(tabela.getSelectedRow()).getMatrValMens()));
         txtStatusMat.setText(String.valueOf(matriculas.get(tabela.getSelectedRow()).getMatrStatus()));
         dtVencMens.setDate(matriculas.get(tabela.getSelectedRow()).getMatrDtVenc());
-        
         for(int i = 1; i < comboAtiv.getItemCount();i++){
             if(matriculas.get(tabela.getSelectedRow()).getAtivCod() == 
                    Integer.valueOf(String.valueOf(comboAtiv.getItemAt(i)).substring(0,String.valueOf(comboAtiv.getItemAt(i)).indexOf(" - ")).trim())){
@@ -776,6 +761,7 @@ private void LinhaSelecionadaMat(JTable tabela){
               
             }
         }
+        txtValMens.setText(String.valueOf(matriculas.get(tabela.getSelectedRow()).getMatrValMens()));
         } 
     }
 

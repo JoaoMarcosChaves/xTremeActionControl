@@ -574,27 +574,27 @@ private Connection conexao;
         return lista;
       }
       
-      public int ConsultaTotMatr(int cod)throws SQLException{
-        String sql = "select COUNT(matrCod)matrCod from t_matrAlu where aluCod = ?";
-        
-        PreparedStatement stmt = this.conexao.prepareStatement(sql);
-        stmt.setInt(1, cod);
-        ResultSet rs = stmt.executeQuery();
-        
-        
-        
-        int tot = 0;
-        while (rs.next()) {
-            
-            
-            tot = rs.getInt("matrCod");
-            
-            
-        }
-        rs.close();
-        stmt.close();
-        return tot;
-    }
+//      public int ConsultaTotMatr(int cod)throws SQLException{
+//        String sql = "select COUNT(matrCod)matrCod from t_matrAlu where aluCod = ?";
+//        
+//        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+//        stmt.setInt(1, cod);
+//        ResultSet rs = stmt.executeQuery();
+//        
+//        
+//        
+//        int tot = 0;
+//        while (rs.next()) {
+//            
+//            
+//            tot = rs.getInt("matrCod");
+//            
+//            
+//        }
+//        rs.close();
+//        stmt.close();
+//        return tot;
+//    }
       
       public float ConsultaValDesc(int cod)throws SQLException{
         String sql = "select * from t_descVal where descCod = ? and descStatus = 'Ativo'";
