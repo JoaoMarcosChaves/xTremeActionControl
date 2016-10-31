@@ -16,7 +16,7 @@ public static Connection getConexao()throws SQLException{
     try{
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
     //  JOptionPane.showMessageDialog(null,"conectando ao banco");
-        return DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=xtremeControl", "sa", "123456789");
+        return DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=xtremeControl", "xtreme", "xtremecontrol");
     }catch (ClassNotFoundException e){
         throw  new SQLException(e.getMessage());
     }
