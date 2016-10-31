@@ -5,6 +5,12 @@
  */
 package br.control.gui;
 
+import br.control.Beans.Login_bean;
+import br.control.Controller.Login_controller;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joãomarcos
@@ -32,12 +38,12 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        JtLogin = new javax.swing.JTextField();
-        JtSenha = new javax.swing.JPasswordField();
-        JbEsqueciSenha = new javax.swing.JButton();
+        txtUser = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
         JbEntrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Login.png"))); // NOI18N
 
@@ -50,22 +56,15 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
-        JtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                JtLoginKeyPressed(evt);
+                txtUserKeyPressed(evt);
             }
         });
 
-        JtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                JtSenhaKeyPressed(evt);
-            }
-        });
-
-        JbEsqueciSenha.setText("Esqueci minha senha");
-        JbEsqueciSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JbEsqueciSenhaActionPerformed(evt);
+                txtSenhaKeyPressed(evt);
             }
         });
 
@@ -88,12 +87,11 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(JbEsqueciSenha)
-                        .addGap(18, 18, 18)
+                        .addGap(149, 149, 149)
                         .addComponent(JbEntrar))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(JtLogin)
-                        .addComponent(JtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)))
+                        .addComponent(txtUser)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -102,15 +100,13 @@ public class Login extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(JtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(JtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JbEsqueciSenha)
-                    .addComponent(JbEntrar))
+                .addComponent(JbEntrar)
                 .addContainerGap())
         );
 
@@ -145,49 +141,82 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JtLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtLoginKeyPressed
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-//
-//            try {
-//          //      acessarSistema();
-//            } catch (SQLException ex) {
-//                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-    }//GEN-LAST:event_JtLoginKeyPressed
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+Login_bean bean = new Login_bean();
+        Login_controller controller = new Login_controller();
+        try{
+        if(controller.ConsultaTotUsersCad()){
+            CadUsuPrima cad = new CadUsuPrima();
+            cad.setVisible(true);
+        }else{
+            bean.setUsusLogin(txtUser.getText());
+            bean.setUsusSenha(txtSenha.getText());
+            
+            if(controller.AcessarSistema(bean)){
+                Principal p = new Principal();
+                this.dispose();
+                p.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
+            }
+        }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }
+        }
+    }//GEN-LAST:event_txtUserKeyPressed
 
-    private void JtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtSenhaKeyPressed
-//        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-//
-//            try {
-//            //    acessarSistema();
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(this, ex);
-//            }
-//        }
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+Login_bean bean = new Login_bean();
+        Login_controller controller = new Login_controller();
+        try{
+        if(controller.ConsultaTotUsersCad()){
+            CadUsuPrima cad = new CadUsuPrima();
+            cad.setVisible(true);
+        }else{
+            bean.setUsusLogin(txtUser.getText());
+            bean.setUsusSenha(txtSenha.getText());
+            
+            if(controller.AcessarSistema(bean)){
+                Principal p = new Principal();
+                this.dispose();
+                p.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
+            }
+        }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }
+        }
 
-    }//GEN-LAST:event_JtSenhaKeyPressed
-
-    private void JbEsqueciSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbEsqueciSenhaActionPerformed
-
-//        try {
-//        //    esqueciSenha();
-//        } catch (SQLException ex) {
-//
-//          //  JOptionPane.showMessageDialog(null,"Erro: \n\n"+ ex);
-//        }
-
-    }//GEN-LAST:event_JbEsqueciSenhaActionPerformed
+    }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void JbEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbEntrarActionPerformed
-new Principal().setVisible(true);
-this.dispose();
-//        try {
-//            acessarSistema();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
+        Login_bean bean = new Login_bean();
+        Login_controller controller = new Login_controller();
+        try{
+        if(controller.ConsultaTotUsersCad()){
+            CadUsuPrima cad = new CadUsuPrima();
+            cad.setVisible(true);
+        }else{
+            bean.setUsusLogin(txtUser.getText());
+            bean.setUsusSenha(txtSenha.getText());
+            
+            if(controller.AcessarSistema(bean)){
+                Principal p = new Principal();
+                this.dispose();
+                p.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
+            }
+        }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }
     }//GEN-LAST:event_JbEntrarActionPerformed
 
     /**
@@ -227,13 +256,12 @@ this.dispose();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JbEntrar;
-    private javax.swing.JButton JbEsqueciSenha;
-    private javax.swing.JTextField JtLogin;
-    private javax.swing.JPasswordField JtSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

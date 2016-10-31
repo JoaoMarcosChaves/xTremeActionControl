@@ -363,24 +363,7 @@ public class CadDesc extends javax.swing.JInternalFrame {
             
             lista = controller.ConsDescCad(bean);
             
-            while(tmDesc.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
-            tmDesc.removeRow(0); // e as remove
-            }
-            if(lista.size() == 0){
-        
-            JOptionPane.showMessageDialog(this,"Nenhum desconto localizado na pesquisa");
-               }else{
-                String[] linha = new String[] {null, null, null, null};
-        for( int i=0; i <lista.size(); i++){
-           
-            
-            tmDesc.addRow(linha);
-            tmDesc.setValueAt(lista.get(i).getDescCod(), i, 0);
-            tmDesc.setValueAt(lista.get(i).getDescVal(), i, 1);
-            tmDesc.setValueAt(lista.get(i).getDescStatus(), i, 2);
-            
-               }
-                }
+            MostraPesquisa();
             
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
@@ -409,6 +392,32 @@ public class CadDesc extends javax.swing.JInternalFrame {
             controller.AlteraDesc(bean);
             JOptionPane.showMessageDialog(this, "Desconto alterado com sucesso.");
             
+            if(txtCodDesc.getText().equals("")){
+                bean.setDescCod(0);
+            }else{
+                bean.setDescCod(Integer.valueOf(txtCodDesc.getText()));
+            }
+            if(txtPercDescCons.getText().equals("")){
+                bean.setDescVal(0);
+            }else{
+                bean.setDescVal(Float.valueOf(txtPercDescCons.getText()));
+            }
+            if(txtNumMatCons.getText().equals("")){
+                bean.setDescQtdAtiv(0);
+            }else{
+                bean.setDescQtdAtiv(Integer.valueOf(txtNumMatCons.getText()));
+            }
+            if(checkConsDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
+            
+            tbDescs.clearSelection();
+            lista = controller.ConsDescCad(bean);
+            MostraPesquisa();
+            
+            
         }catch(SQLException ex){
          JOptionPane.showMessageDialog(this, ex);   
         }
@@ -430,6 +439,34 @@ public class CadDesc extends javax.swing.JInternalFrame {
         txtNumMatCons.setText("");
         txtPercDescCons.setText("");
         txtStatusDesc.setText("");
+        
+        
+        if(txtCodDesc.getText().equals("")){
+                bean.setDescCod(0);
+            }else{
+                bean.setDescCod(Integer.valueOf(txtCodDesc.getText()));
+            }
+            if(txtPercDescCons.getText().equals("")){
+                bean.setDescVal(0);
+            }else{
+                bean.setDescVal(Float.valueOf(txtPercDescCons.getText()));
+            }
+            if(txtNumMatCons.getText().equals("")){
+                bean.setDescQtdAtiv(0);
+            }else{
+                bean.setDescQtdAtiv(Integer.valueOf(txtNumMatCons.getText()));
+            }
+            if(checkConsDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
+            
+            tbDescs.clearSelection();
+            lista = controller.ConsDescCad(bean);
+            MostraPesquisa();
+        
+        
         }catch(SQLException ex){
          JOptionPane.showMessageDialog(this, ex);   
         }
@@ -447,6 +484,33 @@ public class CadDesc extends javax.swing.JInternalFrame {
       try{
             controller.ReativaDesc(bean);
             JOptionPane.showMessageDialog(this, "Desconto reativado com sucesso.");
+            
+            
+            if(txtCodDesc.getText().equals("")){
+                bean.setDescCod(0);
+            }else{
+                bean.setDescCod(Integer.valueOf(txtCodDesc.getText()));
+            }
+            if(txtPercDescCons.getText().equals("")){
+                bean.setDescVal(0);
+            }else{
+                bean.setDescVal(Float.valueOf(txtPercDescCons.getText()));
+            }
+            if(txtNumMatCons.getText().equals("")){
+                bean.setDescQtdAtiv(0);
+            }else{
+                bean.setDescQtdAtiv(Integer.valueOf(txtNumMatCons.getText()));
+            }
+            if(checkConsDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
+            
+            tbDescs.clearSelection();
+            lista = controller.ConsDescCad(bean);
+            MostraPesquisa();
+            
         }catch(SQLException ex){
          JOptionPane.showMessageDialog(this, ex);   
         }
@@ -480,6 +544,27 @@ public class CadDesc extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtStatusDesc;
     // End of variables declaration//GEN-END:variables
 
+    public void MostraPesquisa(){
+        while(tmDesc.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
+            tmDesc.removeRow(0); // e as remove
+            }
+            if(lista.size() == 0){
+        
+            JOptionPane.showMessageDialog(this,"Nenhum desconto localizado na pesquisa");
+               }else{
+                String[] linha = new String[] {null, null, null, null};
+        for( int i=0; i <lista.size(); i++){
+           
+            
+            tmDesc.addRow(linha);
+            tmDesc.setValueAt(lista.get(i).getDescCod(), i, 0);
+            tmDesc.setValueAt(lista.get(i).getDescVal(), i, 1);
+            tmDesc.setValueAt(lista.get(i).getDescStatus(), i, 2);
+            
+               }
+                }
+    }
+    
 public boolean verificaCamposCad(){
     
         if(!txtPercDescCad.getText().equals("") && !txtNumMatCad.getText().equals("")){

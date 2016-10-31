@@ -387,25 +387,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
 
             lista = controller.ConsultaAtivs(bean);
             
-    while(tmCadAtiv.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
-        tmCadAtiv.removeRow(0); // e as remove
-    }    
-    if(lista.size() == 0){
-        
-            JOptionPane.showMessageDialog(this,"Nenhuma atividade localizada na pesquisa");
-    }else{
-        String[] linha = new String[] {null, null, null, null};
-        for( int i=0; i <lista.size(); i++){
-           
-            
-            tmCadAtiv.addRow(linha);
-            tmCadAtiv.setValueAt(lista.get(i).getAtivCod(), i, 0);
-            tmCadAtiv.setValueAt(lista.get(i).getAtivNome(), i, 1);
-            tmCadAtiv.setValueAt(lista.get(i).getAtivValor(), i, 2);
-            tmCadAtiv.setValueAt(lista.get(i).getAtivStatus(), i, 3);
-            
-    }
-    } 
+    MostraPesquisa();
         
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
@@ -428,6 +410,14 @@ public class CadAtividades extends javax.swing.JInternalFrame {
        controller.AlteraAtiv(bean);    
        JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso");
        
+        
+       
+            bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));  
+            tbConsAtiv.clearSelection();
+            lista = controller.ConsultaAtivs(bean);
+            MostraPesquisa();
+       
+       
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
        }
@@ -439,7 +429,7 @@ public class CadAtividades extends javax.swing.JInternalFrame {
         txtCodAtiv.setText("");
         txtDescAtivCons.setText("");
         txtNomeAtivCons.setText("");
-        txtValorAtivCons.setText("");
+        txtValorAtivCons.setText(",00");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnDesativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesativarActionPerformed
@@ -453,6 +443,29 @@ public class CadAtividades extends javax.swing.JInternalFrame {
        try{
        controller.DesativaAtiv(bean);
        JOptionPane.showMessageDialog(this, "Atividade desativada com sucesso");
+       
+       if(txtCodAtiv.getText().equals("")){
+            bean.setAtivCod(0);
+            }else{
+            bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));    
+            }
+            bean.setAtivNome(txtNomeAtivCons.getText());
+            if(txtValorAtivCons.getText().equals("")){
+            bean.setAtivValor(0);
+            }else{
+            bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText().replace(",",".")));    
+            }
+            bean.setAtivDescr(txtDescAtivCons.getText());
+            if(checkFiltroDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
+tbConsAtiv.clearSelection();
+            lista = controller.ConsultaAtivs(bean);
+            
+    MostraPesquisa();
+       
        
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
@@ -471,6 +484,28 @@ Ativ_bean bean = new Ativ_bean();
        try{
        controller.AtivaAtiv(bean);
        JOptionPane.showMessageDialog(this, "Atividade reativada com sucesso");
+       
+       if(txtCodAtiv.getText().equals("")){
+            bean.setAtivCod(0);
+            }else{
+            bean.setAtivCod(Integer.valueOf(txtCodAtiv.getText()));    
+            }
+            bean.setAtivNome(txtNomeAtivCons.getText());
+            if(txtValorAtivCons.getText().equals("")){
+            bean.setAtivValor(0);
+            }else{
+            bean.setAtivValor(Float.valueOf(txtValorAtivCons.getText().replace(",",".")));    
+            }
+            bean.setAtivDescr(txtDescAtivCons.getText());
+            if(checkFiltroDes.isSelected()){
+                bean.setDesativ(1);
+            }else{
+                bean.setDesativ(0);
+            }
+tbConsAtiv.clearSelection();
+            lista = controller.ConsultaAtivs(bean);
+            
+    MostraPesquisa();
        
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(this, ex);
@@ -509,6 +544,7 @@ Ativ_bean bean = new Ativ_bean();
     private javax.swing.JFormattedTextField txtValorAtivCons;
     // End of variables declaration//GEN-END:variables
 
+    
     public boolean verificaCamposCad(){
         if(!txtNomeAtivCad.getText().equals("") && !txtValorAtivCad.getText().equals("") && !txtDescAtivCad.getText().equals("")){
             return true;
@@ -529,5 +565,25 @@ Ativ_bean bean = new Ativ_bean();
         }
     }
     
-    
+    public void MostraPesquisa(){
+    while(tmCadAtiv.getRowCount()>0){ // enquanto as linhas forem zeradas, pega as linhas zeradas 
+        tmCadAtiv.removeRow(0); // e as remove
+    }    
+    if(lista.size() == 0){
+        
+            JOptionPane.showMessageDialog(this,"Nenhuma atividade localizada na pesquisa");
+    }else{
+        String[] linha = new String[] {null, null, null, null};
+        for( int i=0; i <lista.size(); i++){
+           
+            
+            tmCadAtiv.addRow(linha);
+            tmCadAtiv.setValueAt(lista.get(i).getAtivCod(), i, 0);
+            tmCadAtiv.setValueAt(lista.get(i).getAtivNome(), i, 1);
+            tmCadAtiv.setValueAt(lista.get(i).getAtivValor(), i, 2);
+            tmCadAtiv.setValueAt(lista.get(i).getAtivStatus(), i, 3);
+            
+    }
+    } 
+}
 }
