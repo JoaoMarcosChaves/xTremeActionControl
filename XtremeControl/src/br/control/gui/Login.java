@@ -43,6 +43,7 @@ public class Login extends javax.swing.JFrame {
         JbEntrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Extreme Control build 1 revisão 0");
         setResizable(false);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Login.png"))); // NOI18N
@@ -153,11 +154,16 @@ Login_bean bean = new Login_bean();
             bean.setUsusLogin(txtUser.getText());
             bean.setUsusSenha(txtSenha.getText());
             
-            if(controller.AcessarSistema(bean)){
+            if(controller.AcessarSistema(bean) == 1){
                 Principal p = new Principal();
                 this.dispose();
                 p.setVisible(true);
-            }else{
+            }else if(controller.AcessarSistema(bean) == 2){
+                Principal p = new Principal();
+                this.dispose();
+                p.setVisible(true);
+            }
+            else{
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
             }
         }
@@ -179,11 +185,17 @@ Login_bean bean = new Login_bean();
             bean.setUsusLogin(txtUser.getText());
             bean.setUsusSenha(txtSenha.getText());
             
-            if(controller.AcessarSistema(bean)){
+            if(controller.AcessarSistema(bean) == 1){
                 Principal p = new Principal();
                 this.dispose();
                 p.setVisible(true);
-            }else{
+            }else if(controller.AcessarSistema(bean) == 2){
+                Principal p = new Principal();
+                p.desabilitaCampos();
+                this.dispose();
+                p.setVisible(true);
+            }
+            else{
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
             }
         }
@@ -206,11 +218,16 @@ Login_bean bean = new Login_bean();
             bean.setUsusLogin(txtUser.getText());
             bean.setUsusSenha(txtSenha.getText());
             
-            if(controller.AcessarSistema(bean)){
+            if(controller.AcessarSistema(bean) == 1){
                 Principal p = new Principal();
                 this.dispose();
                 p.setVisible(true);
-            }else{
+            }else if(controller.AcessarSistema(bean) == 2){
+                Principal p = new Principal();
+                this.dispose();
+                p.setVisible(true);
+            }
+            else{
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
             }
         }

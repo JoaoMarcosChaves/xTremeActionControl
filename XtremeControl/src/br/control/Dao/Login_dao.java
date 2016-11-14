@@ -26,16 +26,17 @@ private Connection conexao;
 "           ,[ususSenha]\n" +
 "           ,[ususEmail])\n" +
 "           VALUES\n" +
-"           (1\n" +
+"           (?\n" +
 "           ,?\n" +
 "           ,?\n" +
 "           ,?)";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         
-        stmt.setString(1, bean.getUsusLogin());
-        stmt.setString(2, bean.getUsusSenha());
-        stmt.setString(3, bean.getUsusEmail());
+        stmt.setInt(1, bean.getUsusTipo());
+        stmt.setString(2, bean.getUsusLogin());
+        stmt.setString(3, bean.getUsusSenha());
+        stmt.setString(4, bean.getUsusEmail());
         
         stmt.execute();
         stmt.close();
@@ -60,20 +61,56 @@ private Connection conexao;
      
     }    
     
-    public boolean AcessarSistema(Login_bean bean)throws SQLException{
-        String sql = "select * from t_ususSis where ususLogin = ? ";
-        boolean ret = false;
-       PreparedStatement stmt = this.conexao.prepareStatement(sql);
+//    public boolean AcessarSistema(Login_bean bean)throws SQLException{
+//        String sql = "select * from t_ususSis where ususLogin = ? ";
+//        boolean ret = false;
+//       PreparedStatement stmt = this.conexao.prepareStatement(sql);
+//       stmt.setString(1, bean.getUsusLogin());
+//       ResultSet rs = stmt.executeQuery();
+//       InterfaceCrip i = new Descriptografar();
+//       while(rs.next()){
+//           if(i.TipoCrip(rs.getString("ususSenha")).equals(bean.getUsusSenha())){
+//               ret =  true;
+//           }
+//       }
+//       rs.close();
+//       stmt.close();
+//       return ret;
+//    }
+    
+    public int AcessarSistema(Login_bean bean)throws SQLException{
+        boolean adm = false;
+        InterfaceCrip i = new Descriptografar();
+        
+       PreparedStatement stmt = this.conexao.prepareStatement("select * from t_ususSis where ususLogin = ? and ususTipo = 1");
        stmt.setString(1, bean.getUsusLogin());
        ResultSet rs = stmt.executeQuery();
-       InterfaceCrip i = new Descriptografar();
+       
        while(rs.next()){
            if(i.TipoCrip(rs.getString("ususSenha")).equals(bean.getUsusSenha())){
-               ret =  true;
+               adm = true;
            }
        }
-       rs.close();
+      rs.close();
        stmt.close();
-       return ret;
+       
+       PreparedStatement stmt2 = this.conexao.prepareStatement("select * from t_ususSis where ususLogin = ? and ususTipo = 2");
+       stmt2.setString(1, bean.getUsusLogin());
+       ResultSet rs2 = stmt2.executeQuery();
+       
+       while(rs2.next()){
+           if(i.TipoCrip(rs2.getString("ususSenha")).equals(bean.getUsusSenha())){
+               adm = false;
+           }
+       }
+       
+       rs2.close();
+       stmt2.close();
+       
+       if(adm){
+        return 1;   
+       }else{
+           return 2;
+       }
     }
 }

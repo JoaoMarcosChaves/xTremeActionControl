@@ -38,7 +38,7 @@ String tipo = "0";
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TipodeConta = new javax.swing.ButtonGroup();
+        grupoBtn = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -50,6 +50,8 @@ String tipo = "0";
         txtConfSenha = new javax.swing.JPasswordField();
         btnCadastrar = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
+        radioAdmin = new javax.swing.JRadioButton();
+        radioComum = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -79,6 +81,12 @@ String tipo = "0";
             }
         });
 
+        grupoBtn.add(radioAdmin);
+        radioAdmin.setText("Administrador");
+
+        grupoBtn.add(radioComum);
+        radioComum.setText("Comum");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -103,7 +111,11 @@ String tipo = "0";
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(radioAdmin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radioComum))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(228, 228, 228)
                         .addComponent(btnCadastrar)
@@ -133,7 +145,11 @@ String tipo = "0";
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioAdmin)
+                    .addComponent(radioComum))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
                     .addComponent(btnFechar))
@@ -171,7 +187,12 @@ String tipo = "0";
     bean.setUsusLogin(txtLogin.getText());
     bean.setUsusSenha(i.TipoCrip(txtSenha.getText()));
     bean.setUsusEmail(i.TipoCrip(txtEmail.getText()));
-        
+    if(radioAdmin.isSelected()){
+        bean.setUsusTipo(1);
+    }else if(radioComum.isSelected()){
+        bean.setUsusTipo(2);
+    }
+    
     int resp = JOptionPane.showConfirmDialog(this,"Confirma a inserção deste usuário?",
         "Confirmação", JOptionPane.YES_NO_OPTION);
         if(resp == JOptionPane.YES_NO_OPTION){
@@ -228,14 +249,16 @@ this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup TipodeConta;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnFechar;
+    private javax.swing.ButtonGroup grupoBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton radioAdmin;
+    private javax.swing.JRadioButton radioComum;
     private javax.swing.JPasswordField txtConfSenha;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtLogin;

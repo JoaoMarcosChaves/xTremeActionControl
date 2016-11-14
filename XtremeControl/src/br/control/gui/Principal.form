@@ -73,7 +73,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu4">
+        <Menu class="javax.swing.JMenu" name="menuAdmSis">
           <Properties>
             <Property name="text" type="java.lang.String" value="Administra&#xe7;&#xe3;o do sistema"/>
           </Properties>
@@ -116,6 +116,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="0"/>
+    <Property name="title" type="java.lang.String" value="Extreme Control build 1 revis&#xe3;o 0"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>

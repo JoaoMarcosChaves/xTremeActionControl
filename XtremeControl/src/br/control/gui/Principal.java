@@ -39,13 +39,14 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemMensVenc = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menuAdmSis = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Extreme Control build 1 revisão 0");
         setResizable(false);
 
         panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
@@ -131,7 +132,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Administração do sistema");
+        menuAdmSis.setText("Administração do sistema");
 
         jMenuItem5.setText("Cadastrar usuário");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -139,9 +140,9 @@ public class Principal extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
+        menuAdmSis.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menuAdmSis);
 
         jMenu5.setText("Sair");
 
@@ -295,7 +296,6 @@ int resp = JOptionPane.showConfirmDialog(this,"Confirma que irá sair do sistema
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -307,6 +307,7 @@ int resp = JOptionPane.showConfirmDialog(this,"Confirma que irá sair do sistema
     private javax.swing.JMenuItem jMenuItemCadAtiv;
     private javax.swing.JMenuItem jMenuItemCadDesc;
     private javax.swing.JMenuItem jMenuItemMensVenc;
+    private javax.swing.JMenu menuAdmSis;
     private javax.swing.JDesktopPane panelPrincipal;
     // End of variables declaration//GEN-END:variables
 
@@ -317,4 +318,7 @@ int resp = JOptionPane.showConfirmDialog(this,"Confirma que irá sair do sistema
                 (desktopSize.height - jInternalFrameSize.height) / 2);
     }
 
+ public void desabilitaCampos(){
+     menuAdmSis.setEnabled(false);
+ }
 }

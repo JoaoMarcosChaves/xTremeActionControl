@@ -7,7 +7,7 @@ package br.control.Beans;
  */
 public class Login_bean {
     
-   private long ususTipo;
+   private int ususTipo;
    private String ususLogin;
    private String ususSenha;
    private String ususEmail;
@@ -15,11 +15,11 @@ public class Login_bean {
    private String ususCod;
    private String dtLoginCnx;
 
-    public long getUsusTipo() {
+    public int getUsusTipo() {
         return ususTipo;
     }
 
-    public void setUsusTipo(long ususTipo) {
+    public void setUsusTipo(int ususTipo) {
         this.ususTipo = ususTipo;
     }
 

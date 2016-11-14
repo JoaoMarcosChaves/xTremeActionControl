@@ -27,7 +27,7 @@ public class Login_controller {
         dao.CadUser(bean);
     }
     
-    public boolean AcessarSistema(Login_bean bean)throws SQLException{
+    public int AcessarSistema(Login_bean bean)throws SQLException{
         Login_dao dao = new Login_dao();
         
         return dao.AcessarSistema(bean);
